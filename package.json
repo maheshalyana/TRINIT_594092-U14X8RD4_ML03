@@ -3,9 +3,9 @@
        "version": "1.0.0",
        "description": "",
        "scripts": {
-           "build": "pip3 install requirements.txt",
-           "test": "python crop_prediction.py",
-           "start": "python crop_prediction.py"
+           "build": "python main.py",
+           "test": "python main.py",
+           "start": "python main.py"
         },
         "repository": {
             "type": "git",
