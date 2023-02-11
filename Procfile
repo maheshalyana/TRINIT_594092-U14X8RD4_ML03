@@ -1,0 +1,1 @@
+web: gunicorn crop_prediction:app
