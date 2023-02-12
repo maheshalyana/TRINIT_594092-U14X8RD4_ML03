@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cropsy/unitls.dart';
 import 'package:cropsy/weather_data_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   WeatherData? wdata;
-
+  List<String> images = [
+    'https://m.economictimes.com/thumb/msid-93881796,width-1200,height-900,resizemode-4,imgsize-154184/after-wheat-and-sugar-govt-may-curb-rice-exports.jpg',
+    'https://www.richiebags.com/wp-content/uploads/2021/06/the-story-of-jute.jpg',
+    'http://www.the-sustainable-fashion-collective.com/img/http/assets.the-sustainable-fashion-collective.com/assets/the-swatch-book/2014/11/cotton.png/7c098280951a28c0f2aa4291f179ae42.png',
+    'https://cdn.siasat.com/wp-content/uploads/2022/04/Mangoes-660x495.png',
+    'https://afoodcentriclife.com/wp-content/uploads/2012/11/pomegranates.jpg',
+  ];
+  List<String> timages = [
+    'https://afoodcentriclife.com/wp-content/uploads/2012/11/pomegranates.jpg',
+    'https://cdn.siasat.com/wp-content/uploads/2022/04/Mangoes-660x495.png',
+    'http://www.the-sustainable-fashion-collective.com/img/http/assets.the-sustainable-fashion-collective.com/assets/the-swatch-book/2014/11/cotton.png/7c098280951a28c0f2aa4291f179ae42.png',
+    'https://m.economictimes.com/thumb/msid-93881796,width-1200,height-900,resizemode-4,imgsize-154184/after-wheat-and-sugar-govt-may-curb-rice-exports.jpg',
+    'https://www.richiebags.com/wp-content/uploads/2021/06/the-story-of-jute.jpg',
+  ];
   void getData() async {
     await Geolocator.requestPermission();
     // Geolocator.checkPermission();
     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) async {
       var response = await http.post(Uri.parse(
-          'http://api.weatherapi.com/v1/current.json?key=0afe0ac6a055436c9cd165636231102&q=${position.longitude},${position.latitude}'));
+          'http://api.weatherapi.com/v1/current.json?key=0afe0ac6a055436c9cd165636231102&q=${position.latitude},${position.longitude}'));
       print("Status code");
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -95,7 +109,28 @@ class _HomeState extends State<Home> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return wdata == null
-        ? CircularProgressIndicator()
+        ? Container(
+            height: height,
+            width: width,
+            child: Center(
+              child: Container(
+                height: 100,
+                width: 100,
+                child: Center(
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(
+                      color: utils.majorColor,
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5)),
+              ),
+            ),
+          )
         : Container(
             child: Column(
               children: [
@@ -157,15 +192,18 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Weather\n$day ${DateTime.now().hour}:${DateTime.now().minute}\n${wdata!.current!.condition!.text}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: width * 0.04,
-                      fontFamily: "Ubuntu",
-                      fontWeight: FontWeight.w700,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Weather\n$day ${DateTime.now().hour}:${DateTime.now().minute}\n${wdata!.current!.condition!.text}",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.04,
+                        fontFamily: "Ubuntu",
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
@@ -185,6 +223,7 @@ class _HomeState extends State<Home> {
                   width: width,
                   height: height * 0.18,
                   child: ListView.builder(
+                      itemCount: images.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -209,8 +248,12 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(31),
-                                child: FlutterLogo(size: 108)),
+                              borderRadius: BorderRadius.circular(31),
+                              child: Image.network(
+                                images[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         );
                       }),
@@ -231,6 +274,7 @@ class _HomeState extends State<Home> {
                   width: width,
                   height: height * 0.15,
                   child: ListView.builder(
+                      itemCount: timages.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -255,8 +299,12 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(31),
-                                child: FlutterLogo(size: 108)),
+                              borderRadius: BorderRadius.circular(31),
+                              child: Image.network(
+                                timages[index],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         );
                       }),

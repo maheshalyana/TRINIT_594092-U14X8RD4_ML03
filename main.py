@@ -63,7 +63,7 @@ def predict():
     print(y_pred)
     print(type(y_pred))
 
-    return {"prediction": y_pred.tolist() + [prices[y_pred[0]]]}
+    return {"prediction": y_pred.tolist() + prices[y_pred[0]]}
 
 
 if __name__ == "__main__":

@@ -93,9 +93,10 @@ class _ResultsState extends State<Results> {
                           width: 107,
                           height: height * 0.12,
                           decoration: BoxDecoration(
+                            color: Colors.grey,
                             borderRadius: BorderRadius.circular(19),
                           ),
-                          child: FlutterLogo(size: 100),
+                          // child: FlutterLogo(size: 100),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
