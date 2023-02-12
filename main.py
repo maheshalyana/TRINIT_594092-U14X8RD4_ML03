@@ -1,6 +1,4 @@
-
 """# Using model for API"""
-pip install flask
 
 from flask import Flask, request
 
@@ -38,35 +36,35 @@ def predict():
     y_pred = clf.predict(X)
     print(y_pred)
     prices = {
-        "rice": 100,
-        "maize": 100,
-        "jute": 100,
-        "cotton": 100,
-        "coconut": 100,
-        "papaya": 100,
-        "orange": 100,
-        "apple": 100,
-        "muskmelon": 100,
-        "watermelon": 100,
-        "grapes": 100,
-        "mango": 100,
-        "banana": 100,
-        "pomegranate": 100,
-        "lentil": 100,
-        "blackgram": 100,
-        "mungbean": 100,
-        "mothbeans": 100,
-        "pigeonpeas": 100,
-        "kidneybeans": 100,
-        "chickpea": 100,
-        "coffee": 100,
+        "rice": ["2200", "2500", "2400"],
+        "maize": ["1700", "1800", "1800"],
+        "jute": ["3600", "3900", "3900"],
+        "cotton": ["4500", "4600", "4550"],
+        "coconut": ["3200", "3400", "3300"],
+        "papaya": ["1200", "1500", "1500"],
+        "orange": ["1710", "1790", "1750"],
+        "apple": ["6200", "6290", "6250"],
+        "muskmelon": ["1200", "1600", "1400"],
+        "watermelon": ["1200", "1600", "1400"],
+        "grapes": ["1500", "6000", "3000"],
+        "mango": ["3300", "3500", "3400"],
+        "banana": ["3800", "4100", "4000"],
+        "pomegranate": ["250", "7000", "4000"],
+        "lentil": ["4375" "4445" "4410"],
+        "blackgram": ["5050", "5100", "5075"],
+        "mungbean": ["8000", "10000", "9000"],
+        "mothbeans": ["2200" "2300" "2250"],
+        "pigeonpeas": ["1100", "1500", "1325"],
+        "kidneybeans": ["1000", "1700", "1450"],
+        "chickpea": ["1000", "1400", "1200"],
+        "coffee": ["400", "500", "595"],
     }
     # Return the prediction as a response
     print(y_pred)
     print(type(y_pred))
+
     return {"prediction": y_pred.tolist() + [prices[y_pred[0]]]}
 
 
 if __name__ == "__main__":
     app.run(port=8082, debug=True)
-

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cropsy/result.dart';
 import 'package:cropsy/unitls.dart';
 import 'package:cropsy/weather_data_model.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,8 @@ class _RequestPredictionState extends State<RequestPrediction> {
       }
     });
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -72,6 +74,7 @@ class _RequestPredictionState extends State<RequestPrediction> {
     super.didChangeDependencies();
     getData();
   }
+
   TextEditingController nsoil = TextEditingController();
   TextEditingController psoil = TextEditingController();
   TextEditingController ksoil = TextEditingController();
@@ -356,7 +359,7 @@ class _RequestPredictionState extends State<RequestPrediction> {
                         borderRadius: BorderRadius.circular(15),
                         child: MaterialButton(
                           onPressed: () async {
-                            var data = jsonEncode(<String,dynamic>{
+                            var data = jsonEncode(<String, dynamic>{
                               "N": double.parse(nsoil.text),
                               "P": double.parse(psoil.text),
                               "K": double.parse(ksoil.text),
@@ -366,9 +369,25 @@ class _RequestPredictionState extends State<RequestPrediction> {
                               "rainfall": double.parse(rainfall.text),
                             });
                             print(data);
-                            var response =
-                                await http.post(Uri.parse('http://127.0.0.1:8082/predict'), body: data);
-                                print(response);
+                            var response = await http.post(
+                                Uri.parse(
+                                    'https://cropsyweb.onrender.com/predict'),
+                                body: data);
+                            print(response.body);
+                            print(response.statusCode);
+
+                            if (response.statusCode == 200) {
+                              Map<String, dynamic> output =
+                                  json.decode(response.body);
+                              List data = output['prediction'];
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Results(
+                                        data: data,
+                                      )),
+                                  (route) => false);
+                            }
                           },
                           child: Text(
                             "submit",
